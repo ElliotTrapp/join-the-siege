@@ -3,6 +3,7 @@ import re
 import easyocr
 import magic
 from io import BytesIO
+from PIL import Image
 from werkzeug.datastructures import FileStorage
 import nltk
 from nltk.corpus import stopwords
@@ -37,7 +38,8 @@ def parse_pdf(doc: FileStorage) -> str:
 
 def parse_docx(doc: FileStorage) -> str:
     """Extract text from a DOCX file."""
-    doc = Document(doc.stream)
+    img = Image.open(doc.stream)
+    doc = Document(img)
     full_text = ""
     for para in doc.paragraphs:
         full_text += para.text
@@ -46,7 +48,8 @@ def parse_docx(doc: FileStorage) -> str:
 
 def parse_img(doc: FileStorage) -> str:
     """Extract text from JPG/PNG/TIFF with OCR"""
-    return " ".join(ocr_reader.readtext(doc.stream, detail=0))
+    img = Image.open(doc.stream)
+    return " ".join(ocr_reader.readtext(img, detail=0))
 
 
 def parse_txt(doc: FileStorage) -> str:
@@ -58,7 +61,7 @@ def parse_txt(doc: FileStorage) -> str:
 VALID_DOC_FORMATS = {
     'application/pdf': parse_pdf,
     'image/tiff': parse_img,
-    'image/jpg': parse_img,
+    'image/jpeg': parse_img,
     'image/png': parse_img,
     'doc/txt': parse_txt,
     'doc/docx': parse_docx,

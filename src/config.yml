@@ -1,6 +1,6 @@
 max_doc_bytes: 1048576  # 16MB max-size
 model: "all-MiniLM-L6-v2"
-min_confidence: 0.5
+min_confidence: 0.25
 reference_sentences:
   advertisement: |
     advertisement campaign brand product service price discount offer promotion
@@ -19,11 +19,11 @@ reference_sentences:
     credit credit limit payment received payment posted pending transaction electronic
     fund transfer wire transfer statement message alert notification
   drivers_license: |
-    driver license number name address date birth issue expiration state
+    driver driving license number name address date birth issue expiration state
     class endorsement restriction signature organ donor barcode photo gender height
     weight eye color hair color seal license type unique identifier issuing authority
     country residence expiration renewal suspension revocation restriction condition
-    veteran status veteran indicator veteran designation veteran code
+    veteran status veteran indicator veteran designation veteran code wheel 
   email: |
     email sender recipient subject date time bcc body attachment reply forward
     signature header footer message content type priority read status folder label thread

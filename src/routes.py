@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 import os
 import logging
-import streamlit as st
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.datastructures import FileStorage
 from src.classifier import Classifier
@@ -53,9 +52,9 @@ def classify_doc_route():
   logging.info(f'parsing {doc} and a {doc_format}')
   parsed_doc = Parser().parse(doc, doc_format)
   logging.info(f'successfully parsed {doc}: parsed data:{parsed_doc[:500]}')
-  doc_class = Classifier().classify(parsed_doc)
+  doc_class, confidence = Classifier().classify(parsed_doc)
   logging.info(f'successfully classified {doc}: doc class:{doc_class}')
-  return jsonify({"doc_class": doc_class}), 200
+  return jsonify({"doc_class": doc_class, "confidence": confidence}), 200
 
 @api.route('/classify_docs', methods=['POST'])
 # TODO: finish

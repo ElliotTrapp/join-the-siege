@@ -1,53 +1,64 @@
-# Heron Coding Challenge - File Classifier
+# File Classifier
+
+This is my solution to [Heron Data's join-the-siege technical challenge.](https://github.com/heron-data/join-the-siege)
 
 ## Overview
 
-At Heron, we’re using AI to automate document processing workflows in financial services and beyond. Each day, we handle over 100,000 documents that need to be quickly identified and categorised before we can kick off the automations.
+## Improvements
 
-This repository provides a basic endpoint for classifying files by their filenames. However, the current classifier has limitations when it comes to handling poorly named files, processing larger volumes, and adapting to new industries effectively.
+[] Logging
+[] Exception handling 
+[] Add logic for processing empty files, empty files with no extension, empty files with no name
+[] Add support for new industries
+[] Classify other things about the file, industry, users, suggestions, etc.
+[] Allow different upload strategies, single file, zipped file, S3 path, Google Drive, etc.
+[] Comments/docstrings
+[] Actual documentation
+[] Host documentation somewhere
+[] Better use of standard library
+[] Type hints
+[] More endpoints
+[] Deploying to cloud
+[] Training a classifier, include content of file
+[] Support many more file formats (pdf, docx, etc.) and file types (invoice, taxes, iteneratory, etc.)
+[] Setup CI/CD pipeline for automatic testing and deployment
+[] Refactor to make more maintainable and scalable
+[] Generating synthetic data
+[] Learn through data ingestion
+[] ElasticSearch?
+[] Adding a database
+[] Better validation, guard statements
+[] More tests
+[] Adding a GUI
+[] Adding an endpoint to define new data/train
+[] No downtime on app for new training
+[] Add docker
+[] Users can generate new embeddings by asking an LLM
 
-**Your task**: improve this classifier by adding features and optimisations to handle (1) poorly named files, (2) scaling to new industries, and (3) processing larger volumes of documents.
+## Supported File Formats
 
-This is a real-world challenge that allows you to demonstrate your approach to building innovative and scalable AI solutions. We’re excited to see what you come up with! Feel free to take it in any direction you like, but we suggest:
+- pdf
+- jpg
+- png
+- tiff
+- txt
+- docx
+- xlsx
+- rtf
 
+## Support Document Types
 
-### Part 1: Enhancing the Classifier
+## Setup
 
-- What are the limitations in the current classifier that's stopping it from scaling?
-- How might you extend the classifier with additional technologies, capabilities, or features?
-
-
-### Part 2: Productionising the Classifier 
-
-- How can you ensure the classifier is robust and reliable in a production environment?
-- How can you deploy the classifier to make it accessible to other services and users?
-
-We encourage you to be creative! Feel free to use any libraries, tools, services, models or frameworks of your choice
-
-### Possible Ideas / Suggestions
-- Train a classifier to categorize files based on the text content of a file
-- Generate synthetic data to train the classifier on documents from different industries
-- Detect file type and handle other file formats (e.g., Word, Excel)
-- Set up a CI/CD pipeline for automatic testing and deployment
-- Refactor the codebase to make it more maintainable and scalable
-
-## Marking Criteria
-- **Functionality**: Does the classifier work as expected?
-- **Scalability**: Can the classifier scale to new industries and higher volumes?
-- **Maintainability**: Is the codebase well-structured and easy to maintain?
-- **Creativity**: Are there any innovative or creative solutions to the problem?
-- **Testing**: Are there tests to validate the service's functionality?
-- **Deployment**: Is the classifier ready for deployment in a production environment?
-
-
-## Getting Started
 1. Clone the repository:
+
     ```shell
     git clone <repository_url>
     cd heron_classifier
     ```
 
 2. Install dependencies:
+
     ```shell
     python -m venv venv
     source venv/bin/activate
@@ -55,22 +66,32 @@ We encourage you to be creative! Feel free to use any libraries, tools, services
     ```
 
 3. Run the Flask app:
+
     ```shell
     python -m src.app
     ```
 
 4. Test the classifier using a tool like curl:
+
     ```shell
     curl -X POST -F 'file=@path_to_pdf.pdf' http://127.0.0.1:5000/classify_file
     ```
 
 5. Run tests:
+
    ```shell
     pytest
     ```
 
-## Submission
+## Usage
 
-Please aim to spend 3 hours on this challenge.
+### With Docker
 
-Once completed, submit your solution by sharing a link to your forked repository. Please also provide a brief write-up of your ideas, approach, and any instructions needed to run your solution. 
+docker build -t doc-classifier . # builds image
+docker images # check if image is there
+docker run -d -p 5000:5000 doc-classifier # spins up container from image
+docker ps # ensure the container is running
+
+### Without Docker
+
+## Architecture

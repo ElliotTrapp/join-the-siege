@@ -1,0 +1,60 @@
+max_doc_bytes: 1048576  # 16MB max-size
+model: "all-MiniLM-L6-v2"
+min_confidence: 0.5
+reference_sentences:
+  advertisement: |
+    advertisement campaign brand product service price discount offer promotion
+    call action target audience slogan tagline logo image video medium platform reach
+    impression click conversion sale budget duration placement keywords demographic
+    psychographics market research competitor analysis creative brief headline subheadline
+    body copy testimonial endorsement social medium influencer banner popup flyer brochure
+    jingle radio print digital outdoor sponsorship event marketing
+  bank_statement: |
+    account number statement date beginning balance ending balance transaction
+    deposit withdrawal interest fee ach check balance available fund overdraft bank
+    name account holder debit credit transfer description direct deposit atm withdrawal
+    online banking date transaction reference number merchant name transaction type
+    currency exchange rate fee charge statement period statement cycle statement summary
+    minimum payment due payment due date late fee interest rate statement balance available
+    credit credit limit payment received payment posted pending transaction electronic
+    fund transfer wire transfer statement message alert notification
+  drivers_license: |
+    driver license number name address date birth issue expiration state
+    class endorsement restriction signature organ donor barcode photo gender height
+    weight eye color hair color seal license type unique identifier issuing authority
+    country residence expiration renewal suspension revocation restriction condition
+    veteran status veteran indicator veteran designation veteran code
+  email: |
+    email sender recipient subject date time bcc body attachment reply forward
+    signature header footer message content type priority read status folder label thread
+    conversation inbox outbox spam junk draft archive unsubscribe autoreply encryption
+    phishing virus filter delivery receipt read receipt importance confidentiality disclaimer
+    formatting hyperlink inline image embedded video contact list distribution list
+    reply forward chain message size server smtp imap pop
+  invoice: |
+    invoice number invoice invoice date due date reference number seller name
+    seller address seller contact vendor supplier buyer name buyer address customer
+    client recipient item description product name sku quantity unit price rate item
+    code description subtotal total tax tax rate vat gst discount shipping handling
+    fee grand total amount due balance due payment term payment method payment instruction
+    bank detail account number term condition note comment purchase order number number
+    delivery date salesperson currency tax tax number invoice status
+  news_article: |
+    headline byline date author location source content paragraph quote
+    interview statement background summary update event topic category section editor
+    publisher deadline publication edition circulation reporter correspondent press
+    release breaking news feature article opinion editorial analysis review headline
+    image caption infographic timeline statistic eyewitness account eyewitness testimony
+  presentation: |
+    title slide agenda introduction overview content section conclusion
+    summary speaker note visuals chart graph bullet point key message audience duration
+    handout transition animation objective takeaway feedback rehearsal timing layout
+    design theme font color contrast multimedia video audio hyperlink citation reference
+    quote statistic data comparison highlight challenge solution recommendation next
+    step closing remark
+  resume: |
+    name contact information summary objective experience education skill certification
+    achievement reference profile job title employer date responsibility accomplishment
+    project leadership teamwork communication problemsolving technical proficiency software
+    language award honor volunteer work internship publication professional affiliation
+    career goal training workshop seminar professional development

@@ -1,29 +1,23 @@
-from flask import Flask, request, jsonify
+import logging
+from flask import Flask
+from src.routes import api
+from src.config import config
+from src.parser import Parser
+from src.classifier import Classifier
 
-from src.classifier import classify_file
-app = Flask(__name__)
+def create_app():
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
 
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg'}
+    app = Flask(__name__)
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    app.config['MAX_CONTENT_LENGTH'] = config.MAX_DOC_BYTES
 
-@app.route('/classify_file', methods=['POST'])
-def classify_file_route():
+    app.register_blueprint(api)
+    return app
 
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part in the request"}), 400
+app = create_app()
 
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
-
-    if not allowed_file(file.filename):
-        return jsonify({"error": f"File type not allowed"}), 400
-
-    file_class = classify_file(file)
-    return jsonify({"file_class": file_class}), 200
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)

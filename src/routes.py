@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 import os
 import logging
-from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.datastructures import FileStorage
 from src.classifier import Classifier
 from src.parser import Parser, get_doc_format, VALID_DOC_FORMATS

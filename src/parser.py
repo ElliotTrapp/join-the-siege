@@ -59,6 +59,7 @@ VALID_DOC_FORMATS = {
     "image/jpeg": parse_img,
     "image/png": parse_img,
     "text/rtf": parse_txt,
+    "text/plain": parse_txt,
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": parse_docx,
     #'doc/xlsx': parse_xlsx,
     #'doc/csv': parse_csv,

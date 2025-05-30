@@ -64,12 +64,12 @@ class Classifier:
         for label, embedding in zip(self.reference_embeddings.keys(), reference_embeddings):
             logging.info(f'comparing {len(check_embedding)} long embedding with {len(embedding)} long embedding to see if doc is a {label}')
             similarity = model.similarity(check_embedding, embedding).item()
-            result = (similarity, label)
+            result = (label, similarity)
             results.append(result)
         results.sort(key=lambda result: result[0], reverse=True)
         logging.info(f'all results: {results}')
         top_result = results[0]
         if top_result[0] > config.MIN_CONFIDENCE:
-            confidence, doc_class = top_result
+            doc_class, confidence = top_result
             logging.info(f'doc was identified as a {doc_class} with confidence of {confidence}')
         return doc_class, confidence

@@ -29,14 +29,16 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y 
+          sudo apt-get install -y --no-install-recommends
       
       # Step 3: Install dependencies
       - name: Install Dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
+          pip install --no-cache-dir --upgrade pip
+          pip install --no-cache-dir -r requirements.txt
+          rm -rf ~/.cache/pip
 
       # Step 4: Run Pytest
       - name: Run Tests

@@ -2,6 +2,9 @@ from io import BytesIO
 
 import pytest
 from src.app import app
+import nltk
+nltk.download("wordnet")
+nltk.download("stopwords")
 
 @pytest.fixture
 def client():

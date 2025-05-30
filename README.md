@@ -46,27 +46,36 @@ There are several document types built-in but more can be added at anytime via t
 - presentation
 - resume
 
+## Prerequisites
+
 ## Setup With Docker
 
-1. Build image
+1. Clone the repository:
+
+    ```shell
+    git clone <repository_url>
+    cd join-the-siege
+    ```
+
+2. Build image
 
     ```shell
     docker build -t doc-classifier .
     ```
 
-2. Confirm image is built
+3. Confirm image is built
 
     ```shell
     docker images 
     ```
 
-3. Bring up container
+4. Bring up container
 
     ```shell
     docker run -d -p 5000:5000 doc-classifier
     ```
 
-4. Ensure container is running
+5. Ensure container is running
 
     ```shell
     docker ps
@@ -78,7 +87,7 @@ There are several document types built-in but more can be added at anytime via t
 
     ```shell
     git clone <repository_url>
-    cd heron_classifier
+    cd join-the-siege
     ```
 
 2. Install dependencies:

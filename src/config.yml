@@ -1,7 +1,7 @@
 max_doc_bytes: 1048576  # 16MB max-size
 model: "all-MiniLM-L6-v2"
 min_confidence: 0.25
-reference_sentences:
+reference_embeddings:
   advertisement: |
     advertisement campaign brand product service price discount offer promotion
     call action target audience slogan tagline logo image video medium platform reach

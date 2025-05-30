@@ -14,6 +14,6 @@ class Config:
     MODEL = yaml_config["model"]
     MAX_DOC_BYTES = yaml_config["max_doc_bytes"]
     MIN_CONFIDENCE = yaml_config["min_confidence"]
-    REFERENCE_SENTENCES = yaml_config["reference_sentences"]
+    REFERENCE_EMBEDDINGS = yaml_config["reference_embeddings"]
 
 config = Config()

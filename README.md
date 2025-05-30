@@ -74,7 +74,13 @@ This is my solution to [Heron Data's join-the-siege technical challenge.](https:
 4. Test the classifier using a tool like curl:
 
     ```shell
-    curl -X POST -F 'file=@path_to_pdf.pdf' http://127.0.0.1:5000/classify_file
+    curl -X POST -F 'file=@path_to_pdf.pdf' http://localhost:5000/classify_file
+    ```
+
+# More than one
+
+    ```shell
+    curl -X POST -F 'files[]=@drivers_licence_2.jpg' -F 'files[]=@invoice_1.pdf' http://localhost:5000/classify_files
     ```
 
 5. Run tests:
@@ -93,5 +99,23 @@ docker run -d -p 5000:5000 doc-classifier # spins up container from image
 docker ps # ensure the container is running
 
 ### Without Docker
+
+
+### Adding a new label without embedding
+
+```shell
+curl -X POST http://localhost:5000/add_file_label \
+  -H "Content-Type: application/json" \
+  -d '{"label": "invoice"}'
+```
+
+### Adding a new label with embedding
+
+```shell
+curl -X POST http://localhost:5000/add_file_label \
+  -H "Content-Type: application/json" \
+  -d '{"label": "transcript", "embedding": "grade school class semester quarter"}'
+```
+
 
 ## Architecture

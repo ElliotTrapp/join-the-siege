@@ -6,36 +6,24 @@ This is my solution to [Heron Data's join-the-siege technical challenge.](https:
 
 ## Improvements
 
-[] Logging
-[] Exception handling 
-[] Add logic for processing empty files, empty files with no extension, empty files with no name
-[] Add support for new industries
-[] Classify other things about the file, industry, users, suggestions, etc.
-[] Allow different upload strategies, single file, zipped file, S3 path, Google Drive, etc.
-[] Comments/docstrings
-[] Actual documentation
-[] Host documentation somewhere
-[] Better use of standard library
-[] Type hints
-[] More endpoints
-[] Deploying to cloud
-[] Training a classifier, include content of file
-[] Support many more file formats (pdf, docx, etc.) and file types (invoice, taxes, iteneratory, etc.)
+- Logging
+- Comments
+- Type hints
 [] Setup CI/CD pipeline for automatic testing and deployment
-[] Refactor to make more maintainable and scalable
-[] Generating synthetic data
-[] Learn through data ingestion
-[] ElasticSearch?
-[] Adding a database
-[] Better validation, guard statements
-[] More tests
-[] Adding a GUI
-[] Adding an endpoint to define new data/train
-[] No downtime on app for new training
 [] Add docker
-[] Users can generate new embeddings by asking an LLM
+- Tests for list_file_labels, list_file_embeddings remove_file_label, add_file_label, classify_files
+- Overhaul README with examples, explanations, add possible future improvements like GUI, other ways to upload
+[] Exception handling, include note about getting embedding from OpenAI could be problem
+[x] Support many more file formats (pdf, docx, etc.) and file types (invoice, taxes, iteneratory, etc.)
+[x] Refactor to make more maintainable and scalable
+[x] Better validation with guard statements
+[x] Adding an endpoint to define new data/train
+[x] No downtime on app for adding or removing industries
+[x] Users can generate new embeddings by asking an LLM
 
 ## Supported File Formats
+
+There are several supported file formats. Neither file name nor extension is required to be anything specific.
 
 - pdf
 - jpg
@@ -43,12 +31,48 @@ This is my solution to [Heron Data's join-the-siege technical challenge.](https:
 - tiff
 - txt
 - docx
-- xlsx
 - rtf
 
-## Support Document Types
+## Built-in Document Types
 
-## Setup
+There are several document types built-in but more can be added at anytime via the `/add_file_label` endpoint.
+
+- advertisement
+- bank statement
+- drivers license
+- email
+- invoice
+- news article
+- presentation
+- resume
+
+## Setup With Docker
+
+1. Build image
+
+    ```shell
+    docker build -t doc-classifier .
+    ```
+
+2. Confirm image is built
+
+    ```shell
+    docker images 
+    ```
+
+3. Bring up container
+
+    ```shell
+    docker run -d -p 5000:5000 doc-classifier
+    ```
+
+4. Ensure container is running
+
+    ```shell
+    docker ps
+    ```
+
+## Setup Without Docker
 
 1. Clone the repository:
 
@@ -71,45 +95,29 @@ This is my solution to [Heron Data's join-the-siege technical challenge.](https:
     python -m src.app
     ```
 
-4. Test the classifier using a tool like curl:
-
-    ```shell
-    curl -X POST -F 'file=@path_to_pdf.pdf' http://localhost:5000/classify_file
-    ```
-
-# More than one
-
-    ```shell
-    curl -X POST -F 'files[]=@drivers_licence_2.jpg' -F 'files[]=@invoice_1.pdf' http://localhost:5000/classify_files
-    ```
-
-5. Run tests:
-
-   ```shell
-    pytest
-    ```
-
 ## Usage
 
-### With Docker
-
-docker build -t doc-classifier . # builds image
-docker images # check if image is there
-docker run -d -p 5000:5000 doc-classifier # spins up container from image
-docker ps # ensure the container is running
-
-### Without Docker
-
-
-### Adding a new label without embedding
+### Classify Single File
 
 ```shell
-curl -X POST http://localhost:5000/add_file_label \
-  -H "Content-Type: application/json" \
-  -d '{"label": "invoice"}'
+    curl -X POST -F 'file=@path_to_pdf.pdf' http://localhost:5000/classify_file
 ```
 
-### Adding a new label with embedding
+### Classify Multiple Files
+
+```shell
+    curl -X POST -F 'files[]=@drivers_licence_2.jpg' -F 'files[]=@invoice_1.pdf' http://localhost:5000/classify_files
+```
+
+### Adding a New Label Only
+
+```shell
+    curl -X POST http://localhost:5000/add_file_label \
+    -H "Content-Type: application/json" \
+    -d '{"label": "invoice"}'
+```
+
+### Adding a New Label and Embedding
 
 ```shell
 curl -X POST http://localhost:5000/add_file_label \
@@ -117,5 +125,14 @@ curl -X POST http://localhost:5000/add_file_label \
   -d '{"label": "transcript", "embedding": "grade school class semester quarter"}'
 ```
 
+### Removing a Label and Embedding
 
-## Architecture
+### Listing Labels
+
+### Listing Labels with Embeddings
+
+## Running Tests
+
+```shell
+    pytest
+```

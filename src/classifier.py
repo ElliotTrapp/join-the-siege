@@ -19,6 +19,10 @@ class Classifier:
         embeddings from the config
         """
         self.reference_embeddings = config.REFERENCE_EMBEDDINGS
+    
+    def reset_embeddings(self):
+        """Useful for tests"""
+        self.reference_embeddings = config.REFERENCE_EMBEDDINGS
 
     def get_labels(self) -> list:
         """Return just the labels"""
@@ -56,6 +60,7 @@ class Classifier:
         Add a new label. If an embedding is provided, associate it with the label,
         otherwise, ask OpenAI for an embedding
         """
+        logging.info(f'adding {label} to classifier')
         if not embedding:
             try:
                 embedding = self.get_embedding_from_llm(label)
@@ -65,13 +70,15 @@ class Classifier:
 
     def remove_label(self, label: str) -> None:
         """Remove a label and its embedding"""
+        logging.info(f'removing {label} from classifier')
         try:
-            self.reference_embeddings.pop[label]
+            self.reference_embeddings.pop(label)
         except Exception as e:
             raise Exception(f'failed to remove {label} from config, {e}')
 
     def classify(self, parsed_doc: str) -> tuple[str, float]:
         """Classify a parsed doc in the form of a str"""
+        logging.info(f'classifying {parsed_doc[:200]}')
         results = []
         # Set the default confidence to 1.0 and class to `unknown`
         # if we can't find a match we're "certain" that we don't know

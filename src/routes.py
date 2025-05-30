@@ -50,7 +50,7 @@ def remove_file_label():
       return jsonify({"error": f"{label} not found in current labels"})
     
     try:
-      classifier.remove_label(label)
+        classifier.remove_label(label)
     except Exception as e:
         return jsonify({"error": f"failed to remove {label}, {e}"}), 500
     

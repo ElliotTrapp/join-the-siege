@@ -8,9 +8,14 @@ from docx import Document
 
 from src.util.clean_data import clean_data
 
-ocr_reader = easyocr.Reader(['en']) # this needs to run only once to load the model into memory
+# this needs to run only once to load the model into memory
+ocr_reader = easyocr.Reader(['en']) 
 
-def get_doc_format(doc: FileStorage):
+def get_doc_format(doc: FileStorage) -> str:
+    """
+    Get the doc_format from magic library
+    the formats we support are in VALID_DOC_FORMATS below
+    """
     doc_format = magic.from_buffer(doc.stream.read(), mime=True)
     logging.info(f'{doc.filename} is a {doc_format}')
     return doc_format
@@ -58,15 +63,17 @@ VALID_DOC_FORMATS = {
     "text/rtf": parse_txt,
     "text/plain": parse_txt,
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": parse_docx,
-    #'doc/xlsx': parse_xlsx,
-    #'doc/csv': parse_csv,
 }
 
 class Parser:
+    """
+    Contains all the logic and data relating to converts any file to a
+    string of text ready for classification
+    """
     def __init__(self):
         pass
 
-    def parse(self, doc: FileStorage, doc_format: str):
+    def parse(self, doc: FileStorage, doc_format: str) -> str:
         """
         Full pipeline for extracting and cleaning text from a single PDF file.
         Hash each file to avoid redundant processing if content hasn't changed.

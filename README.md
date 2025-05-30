@@ -4,15 +4,28 @@ This is my solution to [Heron Data's join-the-siege technical challenge.](https:
 
 ## Overview
 
-## Improvements
+The general approach I took is based on using text embeddings to calculate cosine distance between the text parsed from pdfs, OCR, etc. and reference embeddings that contain a bunch of keywords for each document type. I took this approach because it's extremely compute efficient, realitively easy for humans to implement, maintain, and evaluate, and has performance on par with much more advanced and resource intensive approaches. I've used a similiar approach in image processing because you can do the same thing with converting a string of pixels to an embedding, calculate cosine distance, and get an estimate for how "similar" the images are. I really like this approach.
+
+*Handling poorly named files:* The classifier now completely ignores the filename and extension and relies on the file header to check what format the file is in. I've never been a fan of relying on filenames for semantic information about a file. It violates one of the best tongue-in-cheek principles of web development: "never trust the user".
+
+*Scaling to new industries:* I expanded the classifier to support several new built in document types including advertisements, news articles, and emails. Obviously you can never anticipate all labels your user will want so I made it really easy to add support for new documents via the new `add_file_label/` endpoint. You can even just add the simple label (ex. `transcript`) and if you provide your OpenAI API Key in the `.env` file it will send a preformatted prompt to request an embedding for your document type and add it to the configuration. None of this requires a restart or downtime for the system. You can also remove labels incase you have too many of them.
+
+*Processing larger volumes of documents:* There is now a `classify_files/` endpoint where you can submit multiple files to be classified.
+
+*Other improvements include:* 
 
 - Logging
 - Comments
 - Type hints
-[] Setup CI/CD pipeline for automatic testing and deployment
-[] Add docker
+- Simple CI/CD pipeline
+- Basic docker support
+- 
+
+
+## Improvements
+
+[] New tests
 - Tests for list_file_labels, list_file_embeddings remove_file_label, add_file_label, classify_files
-- Overhaul README with examples, explanations, add possible future improvements like GUI, other ways to upload
 [] Exception handling, include note about getting embedding from OpenAI could be problem
 [x] Support many more file formats (pdf, docx, etc.) and file types (invoice, taxes, iteneratory, etc.)
 [x] Refactor to make more maintainable and scalable
@@ -179,3 +192,10 @@ curl -X POST http://localhost:5000/add_file_label \
 ```shell
     pytest
 ```
+
+## Future Work
+
+1. Currently there is no quality check on the automatic embedding generated from OpenAI. In my ad-hoc tests it seems to be serviceable but a future human confirmation step, perhaps using a better LLM model, and maybe providing more input in the prompt are all ways to improve the quality of the embeddings being generated.
+2. I'd add a very basic web app on top of the API so that non-technical users can upload files via a browser. [streamlit.io](https://streamlit.io/) is a library I would look into using to setup a very basic, user-friendly web frontend.
+3. Add support for archives like zip files and tarvballs
+4. Add support for grabbing files from S3 or Google Drive

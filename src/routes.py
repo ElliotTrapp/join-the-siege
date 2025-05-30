@@ -13,24 +13,29 @@ parser = Parser()
 classifier = Classifier()
 
 def is_valid_input_doc_format(doc_format):
-  return doc_format in VALID_DOC_FORMATS.keys()
+    """Is the format one we support?"""
+    return doc_format in VALID_DOC_FORMATS.keys()
 
 def is_valid_doc_size(doc: FileStorage):
-  doc.seek(0, os.SEEK_END)
-  size = doc.tell()
-  doc.stream.seek(0)  # rewind to the start of the stream
-  return size < config.MAX_DOC_BYTES
+    """Is the doc less than the max size we support?"""
+    doc.seek(0, os.SEEK_END)
+    size = doc.tell()
+    doc.stream.seek(0)  # rewind to the start of the stream
+    return size < config.MAX_DOC_BYTES
 
 @api.route('/list_file_labels', methods=['GET'])
 def list_file_labels():
+    """List the currently configured file labels/classes"""
     return jsonify({"labels": classifier.get_labels()})
 
 @api.route('/list_file_embeddings', methods=['GET'])
 def list_file_embeddings():
+    """List the currently configured file labels/classes and their embeddings"""
     return jsonify({"embeddings": classifier.get_embeddings()})
 
 @api.route('/remove_file_label', methods=['POST'])
 def remove_file_label():
+    """Remove a file label/class"""
     data = request.get_json()
     if not data:
         logging.error("no body in request")
@@ -54,6 +59,7 @@ def remove_file_label():
 
 @api.route('/add_file_label', methods=['POST'])
 def add_file_label():
+    """Add a new file label/class and, optionally, an explicit embedding"""
     data = request.get_json()
     if not data:
         logging.error("no body in request")
@@ -80,6 +86,7 @@ def add_file_label():
 
 @api.route('/classify_file', methods=['POST'])
 def classify_file_route():
+    """Classify a single file and provide the class + confidence level"""
     if "file" not in request.files or not request.files["file"].filename:
         logging.error("no document in request")
         return jsonify({"error": "no document provided in request"}), 400
@@ -103,6 +110,7 @@ def classify_file_route():
 
 @api.route('/classify_files', methods=['POST'])
 def classify_files_route():
+    """Classify multiple files and provide the class + confidence level for each"""
     if "files[]" not in request.files or not request.files.getlist("files[]"):
         logging.error("no documents in request")
         return jsonify({"error": "no documents provided in request"}), 400

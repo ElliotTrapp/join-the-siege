@@ -5,13 +5,17 @@ from src.config import config
 from src.parser import Parser
 from src.classifier import Classifier
 
-def create_app():
+def create_app() -> Flask:
+    """
+    Initialize the flask app
+    """
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
     app = Flask(__name__)
 
+    # Set the max document size
     app.config['MAX_CONTENT_LENGTH'] = config.MAX_DOC_BYTES
 
     app.register_blueprint(api)

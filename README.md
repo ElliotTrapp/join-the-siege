@@ -48,6 +48,10 @@ There are several document types built-in but more can be added at anytime via t
 
 ## Prerequisites
 
+- python 3.12
+- (Optional) docker, if you want to deploy with docker
+- (Optional) OpenAI API key loaded with funds, if you want to automatically add new labels (by generating new embeddings)
+
 ## Setup With Docker
 
 1. Clone the repository:
@@ -57,25 +61,33 @@ There are several document types built-in but more can be added at anytime via t
     cd join-the-siege
     ```
 
-2. Build image
+2. (Optional) Setup OpenAI API key:
+
+    ```shell
+    cp env.example .env
+    ```
+
+    Update .env with your [OpenAI API key from here.](https://platform.openai.com/api-keys)
+
+3. Build image
 
     ```shell
     docker build -t doc-classifier .
     ```
 
-3. Confirm image is built
+4. Confirm image is built
 
     ```shell
     docker images 
     ```
 
-4. Bring up container
+5. Bring up container
 
     ```shell
     docker run -d -p 5000:5000 doc-classifier
     ```
 
-5. Ensure container is running
+6. Ensure container is running
 
     ```shell
     docker ps
@@ -90,7 +102,15 @@ There are several document types built-in but more can be added at anytime via t
     cd join-the-siege
     ```
 
-2. Install dependencies:
+2. (Optional) Setup OpenAI API key:
+
+    ```shell
+    cp env.example .env
+    ```
+
+    Update .env with your [OpenAI API key from here.](https://platform.openai.com/api-keys)
+
+3. Install dependencies:
 
     ```shell
     python -m venv venv
@@ -98,7 +118,7 @@ There are several document types built-in but more can be added at anytime via t
     pip install -r requirements.txt
     ```
 
-3. Run the Flask app:
+4. Run the Flask app:
 
     ```shell
     python -m src.app
@@ -118,12 +138,16 @@ There are several document types built-in but more can be added at anytime via t
     curl -X POST -F 'files[]=@drivers_licence_2.jpg' -F 'files[]=@invoice_1.pdf' http://localhost:5000/classify_files
 ```
 
-### Adding a New Label Only
+### Listing Labels
 
 ```shell
-    curl -X POST http://localhost:5000/add_file_label \
-    -H "Content-Type: application/json" \
-    -d '{"label": "invoice"}'
+    curl -X GET http://localhost:5000/list_file_labels
+```
+
+### Listing Labels with Embeddings
+
+```shell
+    curl -X GET http://localhost:5000/list_file_embeddings
 ```
 
 ### Adding a New Label and Embedding
@@ -134,11 +158,21 @@ curl -X POST http://localhost:5000/add_file_label \
   -d '{"label": "transcript", "embedding": "grade school class semester quarter"}'
 ```
 
+### Adding a New Label Without Explicit Embedding (Requires OpenAPI Key + Funds)
+
+```shell
+    curl -X POST http://localhost:5000/add_file_label \
+    -H "Content-Type: application/json" \
+    -d '{"label": "invoice"}'
+```
+
 ### Removing a Label and Embedding
 
-### Listing Labels
-
-### Listing Labels with Embeddings
+```shell
+    curl -X POST http://localhost:5000/remove_file_label \
+    -H "Content-Type: application/json" \
+    -d '{"label": "invoice"}'
+```
 
 ## Running Tests
 

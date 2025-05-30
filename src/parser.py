@@ -3,14 +3,11 @@ import easyocr
 import magic
 from PIL import Image
 from werkzeug.datastructures import FileStorage
-import nltk
 from pypdf import PdfReader
 from docx import Document
 
 from src.util.clean_data import clean_data
 
-nltk.download("wordnet")
-nltk.download('stopwords')
 ocr_reader = easyocr.Reader(['en']) # this needs to run only once to load the model into memory
 
 def get_doc_format(doc: FileStorage):
